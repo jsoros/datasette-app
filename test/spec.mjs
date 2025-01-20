@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { _electron } from 'playwright';
-import path from 'path';
 
 async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -9,7 +8,7 @@ async function sleep(ms) {
 test('App launches and quits', async () => {
   test.setTimeout(0);
   const app = await _electron.launch({
-    args: [path.join(process.cwd(), 'main.js')],
+    args: ['main.js'],
     recordVideo: {dir: 'test-videos'}
   });
   const window = await app.firstWindow();
