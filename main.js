@@ -9,7 +9,6 @@ const {
 } = require("electron");
 const EventEmitter = require("events");
 const crypto = require("crypto");
-const request = require("electron-request");
 const path = require("path");
 const os = require("os");
 const cp = require("child_process");
@@ -118,7 +117,7 @@ class DatasetteServer {
     }
   }
   async about() {
-    const response = await request(
+    const response = await fetch(
       `http://localhost:${this.port}/-/versions.json`
     );
     const data = await response.json();
@@ -244,11 +243,12 @@ class DatasetteServer {
   }
 
   async apiRequest(path, body) {
-    return await request(`http://localhost:${this.port}${path}`, {
+    return await fetch(`http://localhost:${this.port}${path}`, {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
-        Authorization: `Bearer ${this.apiToken}`,
+        "Authorization": `Bearer ${this.apiToken}`,
+        "Content-Type": "application/json"
       },
     });
   }
